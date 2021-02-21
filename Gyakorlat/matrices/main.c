@@ -1,4 +1,7 @@
-#include "matrix.h" /*TODO: - testmatrix átírás - printf normálissá tétele*/
+#include "matrix.h" 
+/*TODO: -Definiáljuk a transform_point függvényt, amelyik egy síkbeli, homogén koordinátákkal adott pontra végzi el a paraméterben kapott mátrix által leírt transzformációt!
+		- shift matrix				
+						*/
 
 int main(int argc, char* argv[])
 {
@@ -20,6 +23,8 @@ int main(int argc, char* argv[])
     };
 	float b[3][3];
 	float c[3][3];
+	float x[3][3];
+	float y[3][3];
 	float testc[3][3];
 
     init_zero_matrix(b);
@@ -41,17 +46,29 @@ int main(int argc, char* argv[])
 	printf("A matrix:\n");
 	print_matrix(a);
 	calc_multbyskalar_matrix(a, 5);
-	printf("A matrix skalar szorzas utan :\n");
+	printf("A matrix 5tel valo skalar szorzas utan :\n");
 	print_matrix(a);
 	printf("----------------------------\n");
-	printf("TESTA :\n");
+	printf("A matrix:\n");
 	print_matrix(testa);
-	printf("TESTB :\n");
+	printf("B matrix:\n");
 	print_matrix(testb);
 	calc_multiply_matrices(testa, testb, testc);
-	
-	printf("TESTC :\n");
+	printf("AxB matrix :\n");
 	print_matrix(testc);
+	printf("----------------------------\n");
+	init_identity_matrix(x);
+	scale_matrix(x, 10 ,-5);
+	print_matrix(x);
+	printf("----------------------------\n");
+	init_zero_matrix(y);
+	rotate_matrix(y,90);
+	print_matrix(y);
+
+	
+	
+	
+	
 	
 	
 	
