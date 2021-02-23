@@ -32,6 +32,8 @@ void calc_multiply_matrices(const float a[3][3], const float b[3][3], float c[3]
  */
 void scale_matrix( float matrix[3][3], int x , int y);
 void rotate_matrix( float matrix[3][3], double x);
-
+void shift_matrix( float matrix[3][3], float dx, float dy);
+void transform_point(const float p1[1][3], const float matrix[3][3], float p2[1][3]);
+void print_point(const float p[1][3]);
 #endif // MATRIX_H
 

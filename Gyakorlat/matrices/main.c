@@ -1,7 +1,5 @@
 #include "matrix.h" 
-/*TODO: -Definiáljuk a transform_point függvényt, amelyik egy síkbeli, homogén koordinátákkal adott pontra végzi el a paraméterben kapott mátrix által leírt transzformációt!
-		- shift matrix				
-						*/
+// TODO: MORMALIS KOMMENT
 
 int main(int argc, char* argv[])
 {
@@ -25,7 +23,12 @@ int main(int argc, char* argv[])
 	float c[3][3];
 	float x[3][3];
 	float y[3][3];
+	float W[3][3];
 	float testc[3][3];
+	float point[1][3] = {
+        { 1.0f,2.0f, 1.0f}, 
+    };
+	float point2[1][3];
 
     init_zero_matrix(b);
     b[1][1] =  8.0f;
@@ -57,13 +60,27 @@ int main(int argc, char* argv[])
 	printf("AxB matrix :\n");
 	print_matrix(testc);
 	printf("----------------------------\n");
+	printf("Scaled matrix :\n");
 	init_identity_matrix(x);
-	scale_matrix(x, 10 ,-5);
+	scale_matrix(x, 2 ,2);
 	print_matrix(x);
 	printf("----------------------------\n");
+	printf("Rotated matrix :\n");
 	init_zero_matrix(y);
-	rotate_matrix(y,90);
+	rotate_matrix(y,45);
 	print_matrix(y);
+	printf("----------------------------\n");
+	printf("Shifted matrix :\n");
+	init_identity_matrix(W);
+	shift_matrix( W, 2, 3);
+	print_matrix(W);
+	printf("----------------------------\n");
+	printf("Pont transz matrixal :\n");
+	print_point(point);
+	transform_point(point, W, point2);
+	printf("----------------------------\n");
+	print_point(point2);
+	
 
 	
 	

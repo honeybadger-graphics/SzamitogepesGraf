@@ -61,6 +61,41 @@ void scale_matrix( float matrix[3][3], int x, int y)
         }
     }
 }
+void transform_point( const float p1[1][3], const float matrix[3][3], float p2[1][3])
+{
+    int i;
+    int j;
+	int l;
+	int sum = 0;
+
+    for (i = 0; i < 3; ++i) {
+        for (j = 0; j < 3; ++j) {
+			for (l = 0; l < 3; ++l) { 
+			sum = sum + p1[i][l]*matrix[l][j];
+			}
+			p2[i][j] = sum;
+			sum = 0;
+        }
+    }
+}
+void shift_matrix( float matrix[3][3], float dx, float dy)
+{
+    int i;
+    int j;
+
+    for (i = 0; i < 3; ++i) {
+        for (j = 0; j < 3; ++j) {
+			if (i==0 && j ==2) 
+			{
+				matrix[i][j] = dx ;
+			}
+			if (i==1 && j ==2) 
+			{
+				matrix[i][j] = dy;
+			}
+        }
+    }
+}
 
 void rotate_matrix( float matrix[3][3], double x)
 {
@@ -93,6 +128,18 @@ void rotate_matrix( float matrix[3][3], double x)
 			
 			
         }
+    }
+}
+void print_point(const float p[1][3])
+{
+    int i;
+    int j;
+
+    for (i = 0; i < 1;++i) {
+        for (j = 0; j < 3 ; ++j) {
+            printf("%4.4f \n", p[i][j]);
+        }
+        //printf("\n");
     }
 }
 void print_matrix(const float matrix[3][3])
