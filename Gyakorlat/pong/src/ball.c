@@ -17,7 +17,7 @@ void rad_ball(Ball* ball, float r)
 {
 	float maxlimit = 75;
 	float minlimit = 25;
-	if(ball->radius>= minlimit && ball->radius <= maxlimit)  
+	if(ball->radius > minlimit && ball->radius < maxlimit)  
 	{	
 		ball->radius = r;
 	}
