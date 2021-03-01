@@ -13,9 +13,9 @@ void set_callbacks()
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutPassiveMotionFunc(motion);
+    /*glutKeyboardFunc(keyboardforRad);*/
     glutKeyboardFunc(keyboard);
-	glutKeyboardFunc(keyboardforRad);
-	glutMouseFunc(mouse);
+    glutMouseFunc(mouse);
     glutIdleFunc(idle);
 }
 

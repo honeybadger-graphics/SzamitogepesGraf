@@ -33,7 +33,7 @@ void motion(int x, int y)
 void keyboard(unsigned char key, int x, int y)
 {
     float position;
-
+	float rad;
     position = game.left_pad.position;
     switch (key) {
     case 'w':
@@ -43,33 +43,42 @@ void keyboard(unsigned char key, int x, int y)
         position += 10;
         break;
     }
-    move_left_pad(&game, position);
-
-    glutPostRedisplay();
-}
-void keyboardforRad(unsigned char key, int x, int y)
-{
-    float position;
-
-    position = game.ball.radius;
+	
+    rad = game.ball.radius;
     switch (key) {
     case '-':
-        position = position - 1;
+        rad = rad - 1;
         break;
     case '+':
-        position = position + 1;
+        rad = rad + 1;
         break;
     }
-    modf_radious_ball(&game, position);
+    modf_radious_ball(&game, rad);
+    glutPostRedisplay();
+    move_left_pad(&game, position);
     glutPostRedisplay();
 }
+/*void keyboardforRad(unsigned char key, int x, int y)
+{
+	float rad;
+    rad = game.ball.radius;
+    switch (key) {
+    case '-':
+        rad = rad - 1;
+        break;
+    case '+':
+        rad = rad + 1;
+        break;
+    }
+    modf_radious_ball(&game, rad);
+    glutPostRedisplay();
+}*/
 void mouse(int button, int state, int x, int y)
 {
 	 int mouseXPos =0;
 	 int mouseYPos =0;
     if (button == GLUT_LEFT_BUTTON || button == GLUT_RIGHT_BUTTON)
     {
-		
         if(state == GLUT_DOWN)
 		{
 			mouseXPos = x;
@@ -77,8 +86,8 @@ void mouse(int button, int state, int x, int y)
 			mouse_move_ball(&game, mouseXPos, mouseYPos);
 			glutPostRedisplay();
 		}
-		
     }
+glutPostRedisplay();
 }
 
 void idle()

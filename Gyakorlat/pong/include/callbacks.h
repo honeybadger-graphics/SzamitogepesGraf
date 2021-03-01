@@ -40,5 +40,5 @@ void keyboard(unsigned char key, int x, int y);
  */
 void idle();
 void mouse(int button, int state, int x, int y);
-void keyboardforRad(unsigned char key, int x, int y);
+/*void keyboardforRad(unsigned char key, int x, int y);*/
 #endif /* CALLBACKS_H */
