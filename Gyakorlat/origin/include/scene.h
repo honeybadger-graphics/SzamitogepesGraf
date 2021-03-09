@@ -27,6 +27,8 @@ void draw_origin();
  */
 void draw_triangle();
 void draw_sphere();
+void draw_cone();
+void draw_cylinder();
 
 #endif /* SCENE_H */
 

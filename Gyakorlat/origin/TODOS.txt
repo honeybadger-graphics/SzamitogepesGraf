@@ -1,0 +1,5 @@
+//-----------TODOD--------------\\
+// - rotate sphere on axis -----\\
+// - camera management ---------\\
+// - triangle recolor???--------\\
+// -----------------------------\\

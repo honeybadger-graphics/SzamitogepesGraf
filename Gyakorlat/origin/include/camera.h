@@ -43,6 +43,7 @@ void set_camera_speed(Camera* camera, double speed);
  * Set the speed of left and right side steps.
  */
 void set_camera_side_speed(Camera* camera, double speed);
+void set_camera_horizon_speed(Camera* camera, double speed);
 
 #endif /* CAMERA_H */
 

@@ -50,19 +50,26 @@ void motion(int x, int y)
 void keyboard(unsigned char key, int x, int y)
 {
     float position;
-	float speed = 0.5;
+	//float speed = 0.5;
+	float speed = 1; //for faster testing
     switch (key) {
-    case 'w':
+    case 's':
         set_camera_speed(&camera, speed);
         break;
-    case 's':
+    case 'w':
         set_camera_speed(&camera, -speed);
         break;
-    case 'a':
+    case 'd':
         set_camera_side_speed(&camera, speed);
         break;
-    case 'd':
+    case 'a':
         set_camera_side_speed(&camera, -speed);
+        break;
+	case 'q':
+        set_camera_horizon_speed(&camera, -speed);
+        break;
+    case 'e':
+        set_camera_horizon_speed(&camera, speed);
         break;
     }
 
@@ -81,6 +88,10 @@ void keyboard_up(unsigned char key, int x, int y)
     case 'a':
     case 'd':
         set_camera_side_speed(&camera, 0.0);
+        break;
+	case 'q':
+    case 'e':
+        set_camera_horizon_speed(&camera, 0.0);
         break;
     }
 
