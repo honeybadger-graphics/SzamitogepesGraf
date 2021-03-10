@@ -12,7 +12,7 @@ void draw_scene(const Scene* scene)
         //draw_triangle(); 
         //draw_sphere();
         //draw_cone();
-        //draw_cylinder();
+        draw_cylinder();
        //draw_chesstable();
 }
 
@@ -151,14 +151,14 @@ glColor3d(0.3,0.3,0.3);
  glBegin(GL_TRIANGLE_FAN);
 // bottom circle
 glVertex3f(x,y,z);
-for(i=0; i<slices; i++) {glVertex3f(x + cos((float)i/slices * 2 *M_PI)*r,
+for(i=0; i<=slices; i++) {glVertex3f(x + cos((float)i/slices * 2 *M_PI)*r,
 y, z+sin((float)i/slices * 2 * M_PI)*r);}
 glEnd();
 
 glBegin(GL_TRIANGLE_FAN);
 //top circle
 glVertex3f(x,y + HEIGHT,z);
-for(i=0; i<slices; i++) {glVertex3f(x + cos((float)i/slices * 2 *M_PI)*r,
+for(i=0; i<=slices; i++) {glVertex3f(x + cos((float)i/slices * 2 *M_PI)*r,
 y+ HEIGHT, z+sin((float)i/slices * 2 * M_PI)*r);}
 glEnd();
 
