@@ -8,12 +8,14 @@ void init_scene(Scene* scene)
 
 void draw_scene(const Scene* scene)
 {
-    draw_origin();
-	/*draw_triangle(); works just remove comment*/
-	/*draw_sphere(); works just remove comment*/
-	/*draw_cone(); same as above*/
-	draw_cylinder();
+	draw_origin();
+        //draw_triangle(); 
+        //draw_sphere();
+        //draw_cone();
+        //draw_cylinder();
+       //draw_chesstable();
 }
+
 
 
 void draw_origin()
@@ -98,6 +100,45 @@ void draw_cone()
  glEnd();
  glFlush();
 }
+void draw_chesstable()
+{
+
+int i ;
+int j;
+float color0 = 0;
+float color1 = 1;
+float y = 0; 
+for(j=0;j<8;j++){
+float x = 0;
+for(i=0;i<4;i++){
+ glColor3d(color0,color0,color0);
+ glBegin(GL_QUADS);
+    glVertex3f(x,y,0);
+    glVertex3f(x+0.125,y,0);
+	glVertex3f(x+0.125,y+0.125,0);
+	glVertex3f(x,y+0.125,0);
+ glEnd();
+ glColor3d(color1,color1,color1);
+ glBegin(GL_QUADS);
+    glVertex3f(x+0.125,y,0);
+    glVertex3f(x+0.125,y+0.125,0);
+	glVertex3f(x+0.25,y+0.125,0);
+	glVertex3f(x+0.25,y,0);
+glEnd();
+x= x+ 0.25;
+}
+y=y+0.125;
+/*use help to change up the colors*/
+float help;
+help = color0;
+color0 = color1;
+color1= help;
+}
+
+
+
+ glFlush();
+}
 void draw_cylinder()
 {float x=0.5;
 float y = 0;
@@ -106,7 +147,7 @@ float r = 0.5;
 float HEIGHT = 1;
 int slices = 16;
 int i;
-glColor3d(1,1,1);
+glColor3d(0.3,0.3,0.3);
  glBegin(GL_TRIANGLE_FAN);
 // bottom circle
 glVertex3f(x,y,z);
@@ -121,7 +162,8 @@ for(i=0; i<slices; i++) {glVertex3f(x + cos((float)i/slices * 2 *M_PI)*r,
 y+ HEIGHT, z+sin((float)i/slices * 2 * M_PI)*r);}
 glEnd();
 
-// the rest
+// the rest of the cylinder
+glColor3d(1,1,1);
 glBegin(GL_TRIANGLE_STRIP);
 for(i=0; i<=slices; i++) 
 {

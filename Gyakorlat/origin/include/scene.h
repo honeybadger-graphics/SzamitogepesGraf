@@ -29,6 +29,7 @@ void draw_triangle();
 void draw_sphere();
 void draw_cone();
 void draw_cylinder();
+void draw_chesstable();
 
 #endif /* SCENE_H */
 

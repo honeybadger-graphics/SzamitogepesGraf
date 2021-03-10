@@ -1,4 +1,5 @@
 #include "callbacks.h"
+#include "scene.h"
 
 #define VIEWPORT_RATIO (4.0 / 3.0)
 #define VIEWPORT_ASPECT 50.0
