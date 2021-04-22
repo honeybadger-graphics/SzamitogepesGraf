@@ -11,8 +11,9 @@ void init_scene(Scene* scene)
 	scene->cube_rotation = 0.0;
 	scene->cube_fallspeed = 0.0;
 
-    load_model(&(scene->cube), "cube.obj");
-    scene->texture_id = load_texture("cube.png"); 
+    load_model(&(scene->cube), "droppod3.obj");
+load_model(&(scene->particulse), "particulse.obj");
+    scene->texture_id = load_texture("TDragoonTextures.png"); 
 
     glBindTexture(GL_TEXTURE_2D, scene->texture_id);
 
@@ -81,8 +82,8 @@ typedef	struct  {
 
 Dropod_Origins_Body DropPod_Origins[n] = {
 	{0, 0, 0},
-    {0.5, 2, 0.5},
-    {-0.5, -2, 0.75},
+    {1, 2, 1},
+    {-3, -2, 1},
 	{1.5, 3, -0.75},
 	{1, -4, 1.5},
 };
@@ -95,6 +96,7 @@ Dropod_Origins_Body DropPod_Origins[n] = {
 	glTranslatef(DropPod_Origins[i].x,DropPod_Origins[i].y,DropPod_Origins[i].z);
 	glRotatef(scene->cube_rotation, 0,0,1);
 	draw_model(&(scene->cube));
+	draw_model(&(scene->particulse));
 	glPopMatrix();}
 }
 void update_scene(Scene* scene, double time)

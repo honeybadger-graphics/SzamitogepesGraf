@@ -9,6 +9,7 @@
 typedef struct Scene
 {
     Model cube;
+	Model particulse;
 	float cube_rotation;
 	float cube_fallspeed;
     Material material;
