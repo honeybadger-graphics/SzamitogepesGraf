@@ -8,12 +8,13 @@
 
 typedef struct Scene
 {
-    Model cube;
+    Model model;
 	Model particulse;
 	float cube_rotation;
 	float cube_fallspeed;
     Material material;
-    GLuint texture_id;
+    GLuint texture_model;
+	GLuint texture_entry;
 } Scene;
 
 /**

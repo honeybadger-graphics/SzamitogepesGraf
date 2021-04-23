@@ -7,7 +7,6 @@ Több "Mentőcsónak" esik le az égből amik a "Földet" elérve becsapódnak.
 - A mentőcsónak a függőleges tengelye mentén forog, ezen forgás sebessége változtatható bizonyos határokon belül a Q(lassítás) és E(gyorsítás) billentyűk lenyomásával.
 - A mentőcsónak körül légtérbe való lépési "égési" folyamat (szikrázódás eseteleg füst) veszi körül.
 - A mentőcsónak becsópdáskor törmeléket ver fel valamint füst száll fel.
-- A mentőcsónak becsópdáskor megrongálódik.
 ### Föld részletei
 -  A Földön már vannak becsapódott vagy éppen becsapódást végző mentőcsónakok.
 -  A figyelemmel kisért mentőcsónak becsapódásakor a becsapódás helye rongálódik.

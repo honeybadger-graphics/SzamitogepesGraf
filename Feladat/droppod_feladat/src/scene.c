@@ -11,11 +11,12 @@ void init_scene(Scene* scene)
 	scene->cube_rotation = 0.0;
 	scene->cube_fallspeed = 0.0;
 
-    load_model(&(scene->cube), "droppod3.obj");
-load_model(&(scene->particulse), "particulse.obj");
-    scene->texture_id = load_texture("TDragoonTextures.png"); 
+    load_model(&(scene->model), "Droppod3.obj");
+    scene->texture_model = load_texture("TDragoonTextures.png");
 
-    glBindTexture(GL_TEXTURE_2D, scene->texture_id);
+	load_model(&(scene->particulse), "particles.obj");
+	scene->texture_entry = load_texture("Reentry.png"); 
+    
 
     scene->material.ambient.red = 1.0;
     scene->material.ambient.green = 1.0;
@@ -88,6 +89,7 @@ Dropod_Origins_Body DropPod_Origins[n] = {
 	{1, -4, 1.5},
 };
 	int i;
+	int j;
     set_material(&(scene->material));
     set_lighting();
     draw_origin();
@@ -95,7 +97,14 @@ Dropod_Origins_Body DropPod_Origins[n] = {
 	glPushMatrix();
 	glTranslatef(DropPod_Origins[i].x,DropPod_Origins[i].y,DropPod_Origins[i].z);
 	glRotatef(scene->cube_rotation, 0,0,1);
-	draw_model(&(scene->cube));
+	    glBindTexture(GL_TEXTURE_2D, scene->texture_model);
+	draw_model(&(scene->model));
+	glPopMatrix();}
+	for(j = 0; j<n;j++){
+	glPushMatrix();
+	glTranslatef(DropPod_Origins[j].x,DropPod_Origins[j].y,DropPod_Origins[j].z);
+	glRotatef(scene->cube_rotation, 0,0,-1);
+	glBindTexture(GL_TEXTURE_2D, scene->texture_entry);
 	draw_model(&(scene->particulse));
 	glPopMatrix();}
 }
