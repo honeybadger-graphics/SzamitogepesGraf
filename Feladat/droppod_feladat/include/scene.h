@@ -10,11 +10,18 @@ typedef struct Scene
 {
     Model model;
 	Model particulse;
+	Model damageTer;
+	Model terr;
+	Model smoke;
 	float cube_rotation;
 	float cube_fallspeed;
+	float smoke_rot;
     Material material;
     GLuint texture_model;
 	GLuint texture_entry;
+	GLuint texture_dt;
+	GLuint texture_terr;
+	GLuint texture_smoke;
 } Scene;
 
 /**

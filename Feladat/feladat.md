@@ -12,13 +12,13 @@
   - Megfelelő forgási sebesség kialakítása
   - Mentőcsónakok megfelelő elhelyezése
 3. Mentőcsónakok "forgási" sebességének változattása.
-4. Elérni, hogy a mentőcsónak "leessen".
+4. Elérni, hogy a mentőcsónak "leessen". (Done)
 5. Becsapódáskori effektek megjelentése.
 ## Föld:
 
 ------------
 
-1. Készíts talajt.
-2. Előre lehelyezni becsapódott mentőcsónakokat.
-3. Mentőcsónak becsapódásakor a talaj sérüljön.
+1. Készíts talajt. (Done, Talán néhány módosítás) 
+2. Előre lehelyezni becsapódott mentőcsónakokat. (Done)
+3. Mentőcsónak becsapódásakor a talaj sérüljön. (Done)
 
