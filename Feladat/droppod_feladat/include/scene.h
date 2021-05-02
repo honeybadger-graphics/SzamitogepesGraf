@@ -13,8 +13,8 @@ typedef struct Scene
 	Model damageTer;
 	Model terr;
 	Model smoke;
-	float cube_rotation;
-	float cube_fallspeed;
+	float model_rotation;
+	float model_fallspeed;
 	float smoke_rot;
     Material material;
     GLuint texture_model;
@@ -32,8 +32,7 @@ void init_scene(Scene* scene);
 /**
  * Set the lighting of the scene.
  */
-void set_lighting();
-
+void modify_light(double delta);
 /**
  * Set the current material.
  */
@@ -44,7 +43,10 @@ void update_scene(Scene* scene, double time);
  * Draw the scene objects.
  */
 void draw_scene(const Scene* scene);
-
+/**
+*Modifies model rotation speed.
+*/
+void set_model_rotation_speed(Scene* scene, double speed);
 /**
  * Draw the origin of the world coordinate system.
  */

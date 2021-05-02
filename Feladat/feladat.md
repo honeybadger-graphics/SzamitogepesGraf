@@ -9,11 +9,11 @@
 
 1. Placeholder "cube" cseréje tényleges mentőcsónakra. (Done)
 2.  Mentőcsónak körüli effektek létrehozása. (Done)
-  - Megfelelő forgási sebesség kialakítása
+  - Megfelelő forgási sebesség kialakítása (Done)
   - Mentőcsónakok megfelelő elhelyezése
 3. Mentőcsónakok "forgási" sebességének változattása.
 4. Elérni, hogy a mentőcsónak "leessen". (Done)
-5. Becsapódáskori effektek megjelentése.
+5. Becsapódáskori effektek megjelentése. (Almost done)
 ## Föld:
 
 ------------

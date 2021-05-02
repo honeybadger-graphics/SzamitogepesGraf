@@ -1,5 +1,5 @@
 #include "scene.h"
-
+#include <time.h>
 #include <GL/glut.h>
 
 #include <obj/load.h>
@@ -7,11 +7,19 @@
 #define n 6
 #define m 3
 #define b 4
+#define TerrH -20
+
+float ambient_light[] = { 0.1f, 0.1f, 0.1f, 1.0f };
+    float diffuse_light[] = { 0.1f, 0.1f, 0.1f, 1.0f };
+    float specular_light[] = { 0.1f, 0.1f, 0.1f, 1.0f };
+    float position[] = { 1.0f, 0.0f, 3.0f, 1.0f };
+
 
 void init_scene(Scene* scene)
 {
-	scene->cube_rotation = 0.0;
-	scene->cube_fallspeed = 0.0;
+	scene->model_rotation = 0.0;
+	scene->model_fallspeed = 0.0;
+	scene->smoke_rot = 0.0;
 
     load_model(&(scene->model), "Droppod3.obj");
     scene->texture_model = load_texture("TDragoonTextures.png");
@@ -24,35 +32,26 @@ void init_scene(Scene* scene)
 	
 	load_model(&(scene->terr), "Terrain.obj");
 	scene->texture_terr = load_texture("Textureter.png"); 
-    
-
+	
+	load_model(&(scene->smoke), "smoke.obj");
+	scene->texture_smoke = load_texture("smoke.png"); 
+	
     scene->material.ambient.red = 1.0;
-    scene->material.ambient.green = 1.0;
-    scene->material.ambient.blue = 1.0;
+    scene->material.ambient.green = 0.9;
+    scene->material.ambient.blue = 9.9;
 
     scene->material.diffuse.red = 1.0;
-    scene->material.diffuse.green = 1.0;
-    scene->material.diffuse.blue = 1.0;
+    scene->material.diffuse.green = 0.9;
+    scene->material.diffuse.blue = 0.9;
 
     scene->material.specular.red = 1.0;
-    scene->material.specular.green = 1.0;
-    scene->material.specular.blue = 1.0;
+    scene->material.specular.green = 0.9;
+    scene->material.specular.blue = 0.8;
 
     scene->material.shininess = 0.5;
 }
 
-void set_lighting()
-{
-    float ambient_light[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    float diffuse_light[] = { 1.0f, 1.0f, 1.0, 1.0f };
-    float specular_light[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    float position[] = { 0.0f, 2.0f, 10.0f, 1.0f };
 
-    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_light);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse_light);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, specular_light);
-    glLightfv(GL_LIGHT0, GL_POSITION, position);
-}
 
 void set_material(const Material* material)
 {
@@ -99,57 +98,94 @@ Dropod_Origins_Body DropPod_Origins[n] = {
 };
 Dropod_Origins_Body DropPod_InActions[m] = 
 {
-	{3,0,-10},{4,2,-10},{4,-2,-10},
+	{3,0,TerrH},{4,2,TerrH},{4,-2,TerrH},
 };
 Dropod_Origins_Body DropPod_InTerrain[b] =
 {
-	{5,0,-10},{6,2,-10},{6,-2,-10},{7,0,-10},
+	{5,0,TerrH},{6,2,TerrH},{6,-2,TerrH},{7,0,TerrH},
 };
 	int i;
 	int j;
 	int k;
+	int unloadsmoke = 0;
     set_material(&(scene->material));
-    set_lighting();
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_light);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse_light);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, specular_light);
+    glLightfv(GL_LIGHT0, GL_POSITION, position);
+	glEnable(GL_LIGHT0);
     draw_origin();
+	printf("%f\n", ambient_light[0]);
 	glPushMatrix();
-	glTranslatef(0,0,-10);
+	glTranslatef(0,0,TerrH);
 	glBindTexture(GL_TEXTURE_2D, scene->texture_terr);
 	draw_model(&(scene->terr));
 	glPopMatrix();
 	for(i = 0; i<n;i++){
-	glPushMatrix();
-	glTranslatef(DropPod_Origins[i].x,DropPod_Origins[i].y,DropPod_Origins[i].z+scene->cube_fallspeed);
-	glRotatef(scene->cube_rotation, 0,0,1);
+		if (DropPod_Origins[i].z+scene->model_fallspeed>TerrH+1)
+		{
+		glPushMatrix();
+	glTranslatef(DropPod_Origins[i].x,DropPod_Origins[i].y,DropPod_Origins[i].z+scene->model_fallspeed);
+	glRotatef(scene->model_rotation, 0,0,1);
 	glBindTexture(GL_TEXTURE_2D, scene->texture_model);
 	draw_model(&(scene->model));
-	glPopMatrix();}
-	for(j = 0; j<n;j++){
+	glPopMatrix();}	
+
+		else
+			{
 	glPushMatrix();
-	glTranslatef(DropPod_Origins[j].x,DropPod_Origins[j].y,DropPod_Origins[j].z+scene->cube_fallspeed);
-	glRotatef(scene->cube_rotation, 0,0,-1);
+	glTranslatef(DropPod_Origins[i].x,DropPod_Origins[i].y,TerrH+1);
+	glBindTexture(GL_TEXTURE_2D, scene->texture_smoke);
+	glRotatef(scene->smoke_rot, 1,0,1);
+	draw_model(&(scene->smoke));
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(DropPod_Origins[i].x,DropPod_Origins[i].y,TerrH);
+	glBindTexture(GL_TEXTURE_2D, scene->texture_model);
+	draw_model(&(scene->model));
+	glPopMatrix();
+	unloadsmoke = 1;
+	}	
+		}
+	
+	for(j = 0; j<n;j++){
+		if (DropPod_Origins[i].z+scene->model_fallspeed>TerrH)
+		{
+	glPushMatrix();
+	glTranslatef(DropPod_Origins[j].x,DropPod_Origins[j].y,DropPod_Origins[j].z+scene->model_fallspeed);
+	glRotatef(scene->model_rotation, 0,0,-1);
 	glBindTexture(GL_TEXTURE_2D, scene->texture_entry);
 	draw_model(&(scene->particulse));
 	glPopMatrix();}
+	}
 	for(k=0;k<n;k++)
 	{
-		if(DropPod_Origins[k].z+scene->cube_fallspeed<-10)
+		if(DropPod_Origins[k].z+scene->model_fallspeed<TerrH)
 		{
 			glPushMatrix();
-			glTranslatef(DropPod_Origins[k].x,DropPod_Origins[k].y,-10);
+			glTranslatef(DropPod_Origins[k].x,DropPod_Origins[k].y,TerrH);
 			glBindTexture(GL_TEXTURE_2D, scene->texture_dt);
 			draw_model(&(scene->damageTer));
 			glPopMatrix();
 		}
 	}
+	
 	for(i=0; i<m;i++){
 	glPushMatrix();
 	glTranslatef(DropPod_InActions[i].x,DropPod_InActions[i].y,DropPod_InActions[i].z);
-	glRotatef(scene->cube_rotation, 0,1,0); //placeholder for if they are inpacting furface
-	glBindTexture(GL_TEXTURE_2D, scene->texture_model);
+		glBindTexture(GL_TEXTURE_2D, scene->texture_model);
 	draw_model(&(scene->model));
 	glBindTexture(GL_TEXTURE_2D, scene->texture_dt);
 			draw_model(&(scene->damageTer));
-	glPopMatrix();}
+	glPopMatrix();
+	if(unloadsmoke == 0){
+	glPushMatrix();
+	glTranslatef(DropPod_InActions[i].x,DropPod_InActions[i].y,DropPod_InActions[i].z+1);
+		glBindTexture(GL_TEXTURE_2D, scene->texture_smoke);
+	glRotatef(scene->smoke_rot, 1,0,1);
+	draw_model(&(scene->smoke));
+	glPopMatrix();}}
+	
 	for(i=0; i<b;i++){
 	glPushMatrix();
 	glTranslatef(DropPod_InTerrain[i].x,DropPod_InTerrain[i].y,DropPod_InTerrain[i].z);
@@ -161,8 +197,21 @@ Dropod_Origins_Body DropPod_InTerrain[b] =
 }
 void update_scene(Scene* scene, double time)
 {
-	scene->cube_rotation += 10.0* time;
-	scene->cube_fallspeed-= 1.0* time;
+	scene->model_rotation +=20 * time;
+	scene->model_fallspeed -= 2 * time;
+	scene->smoke_rot += 50 *time;
+}
+
+void set_model_rotation_speed(Scene* scene, double speed)
+{
+    scene->model_rotation += speed;
+}
+void modify_light(double delta){
+	
+	if (ambient_light[0] < 0.6)
+			ambient_light[0] = ambient_light[1] = ambient_light[2] += delta;
+			specular_light[0] = specular_light[1] = specular_light[2] += delta;
+			specular_light[0] = specular_light[1] = specular_light[2] += delta;
 }
 
 void draw_origin()

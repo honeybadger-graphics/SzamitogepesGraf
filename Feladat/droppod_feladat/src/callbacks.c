@@ -1,7 +1,7 @@
 #include "callbacks.h"
 
-#define VIEWPORT_RATIO (4.0 / 3.0)
-#define VIEWPORT_ASPECT 50.0
+#define VIEWPORT_RATIO (5.0 / 3.0)
+#define VIEWPORT_ASPECT 45.0
 
 struct {
     int x;
@@ -87,6 +87,18 @@ void keyboard(unsigned char key, int x, int y)
             is_preview_visible = TRUE;
         }
         break;
+	case '+':
+	modify_light(0.001);
+	break;
+	case '-':
+	modify_light(-0.001);
+	break;
+	case 'e':
+		set_model_rotation_speed(&scene, 1);
+		break;
+	case 'q':
+		set_model_rotation_speed(&scene, -1);
+		break;
     }
 
     glutPostRedisplay();
@@ -103,6 +115,10 @@ void keyboard_up(unsigned char key, int x, int y)
     case 'd':
         set_camera_side_speed(&camera, 0.0);
         break;
+	case'+':
+	case'-':
+		modify_light(0);
+		break;
     }
 
     glutPostRedisplay();
