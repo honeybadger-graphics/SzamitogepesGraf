@@ -13,15 +13,18 @@ typedef struct Scene
 	Model damageTer;
 	Model terr;
 	Model smoke;
+	Model skybox;
 	float model_rotation;
 	float model_fallspeed;
 	float smoke_rot;
     Material material;
+	GLuint texture_sky;
     GLuint texture_model;
 	GLuint texture_entry;
 	GLuint texture_dt;
 	GLuint texture_terr;
 	GLuint texture_smoke;
+
 } Scene;
 
 /**
@@ -51,5 +54,9 @@ void set_model_rotation_speed(Scene* scene, double speed);
  * Draw the origin of the world coordinate system.
  */
 void draw_origin();
+/**
+* Unloads smokes on command.
+*/ 
+void unloadsmokes();
 
 #endif /* SCENE_H */

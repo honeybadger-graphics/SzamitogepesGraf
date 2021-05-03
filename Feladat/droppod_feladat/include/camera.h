@@ -42,7 +42,18 @@ void rotate_camera(Camera* camera, double horizontal, double vertical);
  * Set the speed of forward and backward motion.
  */
 void set_camera_speed(Camera* camera, double speed);
-
+/**
+*Set the speed of height motion.
+*/
+void set_camera_height_speed(Camera* camera, double speed);
+/**
+*Sets camera postion to show help
+*/
+void showhelp(Camera* camera);
+/**
+*Sets camera postion to original.
+*/
+void restoretodefcam(Camera* camera);
 /**
  * Set the speed of left and right side steps.
  */

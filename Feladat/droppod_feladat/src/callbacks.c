@@ -18,10 +18,6 @@ void display()
     draw_scene(&scene);
     glPopMatrix();
 
-    if (is_preview_visible) {
-        show_texture_preview();
-    }
-
     glutSwapBuffers();
 }
 
@@ -63,9 +59,9 @@ void motion(int x, int y)
     mouse_position.y = y;
     glutPostRedisplay();
 }
-
 void keyboard(unsigned char key, int x, int y)
 {
+
     switch (key) {
     case 'w':
         set_camera_speed(&camera, 1);
@@ -79,14 +75,18 @@ void keyboard(unsigned char key, int x, int y)
     case 'd':
         set_camera_side_speed(&camera, -1);
         break;
-    case 't':
-        if (is_preview_visible) {
-            is_preview_visible = FALSE;
-        }
-        else {
-            is_preview_visible = TRUE;
-        }
-        break;
+	case'y':
+		set_camera_height_speed(&camera, 1);
+	break;
+	case 'x':
+	set_camera_height_speed(&camera, -1);
+	break;
+	case 'r':
+	unloadsmokes();
+	break;
+	case'h':
+	showhelp(&camera);
+	break;
 	case '+':
 	modify_light(0.001);
 	break;
@@ -115,10 +115,17 @@ void keyboard_up(unsigned char key, int x, int y)
     case 'd':
         set_camera_side_speed(&camera, 0.0);
         break;
+	case'h':
+	restoretodefcam(&camera);
+	break;
 	case'+':
 	case'-':
 		modify_light(0);
 		break;
+	case'x':
+	case'y':
+	set_camera_height_speed(&camera, 0);
+	break;
     }
 
     glutPostRedisplay();

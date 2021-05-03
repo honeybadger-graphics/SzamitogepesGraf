@@ -1,6 +1,7 @@
 #include "scene.h"
 #include <time.h>
 #include <GL/glut.h>
+#include "camera.h"
 
 #include <obj/load.h>
 #include <obj/draw.h> 
@@ -8,45 +9,75 @@
 #define m 3
 #define b 4
 #define TerrH -20
+#define smokelength 6
+#define WINDOW_WIDTH 1024
+#define WINDOW_HEIGHT 768
+
+
+int smokeunloader[] = {0,0,0,0,0,0};
+
 
 float ambient_light[] = { 0.1f, 0.1f, 0.1f, 1.0f };
     float diffuse_light[] = { 0.1f, 0.1f, 0.1f, 1.0f };
     float specular_light[] = { 0.1f, 0.1f, 0.1f, 1.0f };
     float position[] = { 1.0f, 0.0f, 3.0f, 1.0f };
 
+typedef	struct  {
+    float x;
+    float y;
+	float z;
+}Dropod_Origins_Body;
+
+Dropod_Origins_Body DropPod_Origins[n] = {
+	{0, 0, 0},
+    {-1, 2, 1},
+    {-1, -2, 1},
+	{-2.5, 0, 2},
+	{-3, 4, -0.75},
+	{-3, -4, 1.5},
+};
+Dropod_Origins_Body DropPod_InActions[m] = 
+{
+	{3,0,TerrH},{4,2,TerrH},{4,-2,TerrH},
+};
+Dropod_Origins_Body DropPod_InTerrain[b] =
+{
+	{5,0,TerrH},{6,2,TerrH},{6,-2,TerrH},{7,0,TerrH},
+};
 
 void init_scene(Scene* scene)
 {
 	scene->model_rotation = 0.0;
 	scene->model_fallspeed = 0.0;
 	scene->smoke_rot = 0.0;
+    load_model(&(scene->model), "object\\Droppod3.obj");
+    scene->texture_model = load_texture("textures\\TDragoonTextures.png");
 
-    load_model(&(scene->model), "Droppod3.obj");
-    scene->texture_model = load_texture("TDragoonTextures.png");
-
-	load_model(&(scene->particulse), "particles.obj");
-	scene->texture_entry = load_texture("Reentry.png"); 
+	load_model(&(scene->particulse), "object\\particles.obj");
+	scene->texture_entry = load_texture("textures\\Reentry.png"); 
 	
-	load_model(&(scene->damageTer), "damage.obj");
-	scene->texture_dt = load_texture("damtex.png"); 
+	load_model(&(scene->damageTer), "object\\damage.obj");
+	scene->texture_dt = load_texture("textures\\damtex.png"); 
 	
-	load_model(&(scene->terr), "Terrain.obj");
-	scene->texture_terr = load_texture("Textureter.png"); 
+	load_model(&(scene->terr), "object\\Terrain.obj");
+	scene->texture_terr = load_texture("textures\\Textureter.png"); 
 	
-	load_model(&(scene->smoke), "smoke.obj");
-	scene->texture_smoke = load_texture("smoke.png"); 
+	load_model(&(scene->smoke), "object\\smoke.obj");
+	scene->texture_smoke = load_texture("textures\\smoke.png"); 
+	load_model(&(scene->skybox), "object\\skybox.obj");
+	scene->texture_sky = load_texture("textures\\sky.png"); 
 	
     scene->material.ambient.red = 1.0;
-    scene->material.ambient.green = 0.9;
-    scene->material.ambient.blue = 9.9;
+    scene->material.ambient.green = 1.0;
+    scene->material.ambient.blue = 1.0;
 
     scene->material.diffuse.red = 1.0;
-    scene->material.diffuse.green = 0.9;
-    scene->material.diffuse.blue = 0.9;
+    scene->material.diffuse.green = 1.0;
+    scene->material.diffuse.blue = 1.0;
 
     scene->material.specular.red = 1.0;
-    scene->material.specular.green = 0.9;
-    scene->material.specular.blue = 0.8;
+    scene->material.specular.green = 1.0;
+    scene->material.specular.blue = 1.0;
 
     scene->material.shininess = 0.5;
 }
@@ -82,28 +113,7 @@ void set_material(const Material* material)
 
 void draw_scene(const Scene* scene)
 {
-typedef	struct  {
-    float x;
-    float y;
-	float z;
-}Dropod_Origins_Body;
 
-Dropod_Origins_Body DropPod_Origins[n] = {
-	{0, 0, 0},
-    {-1, 2, 1},
-    {-1, -2, 1},
-	{-2.5, 0, 2},
-	{-3, 4, -0.75},
-	{-3, -4, 1.5},
-};
-Dropod_Origins_Body DropPod_InActions[m] = 
-{
-	{3,0,TerrH},{4,2,TerrH},{4,-2,TerrH},
-};
-Dropod_Origins_Body DropPod_InTerrain[b] =
-{
-	{5,0,TerrH},{6,2,TerrH},{6,-2,TerrH},{7,0,TerrH},
-};
 	int i;
 	int j;
 	int k;
@@ -114,8 +124,11 @@ Dropod_Origins_Body DropPod_InTerrain[b] =
     glLightfv(GL_LIGHT0, GL_SPECULAR, specular_light);
     glLightfv(GL_LIGHT0, GL_POSITION, position);
 	glEnable(GL_LIGHT0);
-    draw_origin();
-	printf("%f\n", ambient_light[0]);
+    glPushMatrix();
+	glTranslatef(0,0,TerrH);
+	glBindTexture(GL_TEXTURE_2D, scene->texture_sky);
+	draw_model(&(scene->skybox));
+	glPopMatrix();
 	glPushMatrix();
 	glTranslatef(0,0,TerrH);
 	glBindTexture(GL_TEXTURE_2D, scene->texture_terr);
@@ -133,12 +146,13 @@ Dropod_Origins_Body DropPod_InTerrain[b] =
 
 		else
 			{
-	glPushMatrix();
+	if(smokeunloader[i] == 0)
+	{glPushMatrix();
 	glTranslatef(DropPod_Origins[i].x,DropPod_Origins[i].y,TerrH+1);
 	glBindTexture(GL_TEXTURE_2D, scene->texture_smoke);
 	glRotatef(scene->smoke_rot, 1,0,1);
 	draw_model(&(scene->smoke));
-	glPopMatrix();
+	glPopMatrix();}
 	glPushMatrix();
 	glTranslatef(DropPod_Origins[i].x,DropPod_Origins[i].y,TerrH);
 	glBindTexture(GL_TEXTURE_2D, scene->texture_model);
@@ -201,6 +215,25 @@ void update_scene(Scene* scene, double time)
 	scene->model_fallspeed -= 2 * time;
 	scene->smoke_rot += 50 *time;
 }
+int smokei = 0;
+void unloadsmokes()
+{
+	int smokesucces = 0;
+	static int last_frame_time = 0;
+    int current_time;
+    double elapsed_time;
+   
+    current_time = glutGet(GLUT_ELAPSED_TIME);
+    elapsed_time = (double)(current_time - last_frame_time) / 1000;
+    last_frame_time = current_time;
+	if(elapsed_time >= 1){
+	smokesucces =1;
+	}
+	if (smokesucces == 1 && smokei<smokelength){ smokeunloader[smokei]=1;smokei++;}
+	
+	
+}
+
 
 void set_model_rotation_speed(Scene* scene, double speed)
 {
@@ -208,7 +241,7 @@ void set_model_rotation_speed(Scene* scene, double speed)
 }
 void modify_light(double delta){
 	
-	if (ambient_light[0] < 0.6)
+	if (ambient_light[0] < 0.7)
 			ambient_light[0] = ambient_light[1] = ambient_light[2] += delta;
 			specular_light[0] = specular_light[1] = specular_light[2] += delta;
 			specular_light[0] = specular_light[1] = specular_light[2] += delta;
