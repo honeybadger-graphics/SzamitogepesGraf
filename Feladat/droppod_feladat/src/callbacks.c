@@ -15,7 +15,8 @@ void display()
 
     glPushMatrix();
     set_view(&camera);
-    draw_scene(&scene);
+	draw_help(&scene);
+	draw_scene(&scene);
     glPopMatrix();
 
     glutSwapBuffers();
@@ -81,6 +82,10 @@ void keyboard(unsigned char key, int x, int y)
 	case 'x':
 	set_camera_height_speed(&camera, -1);
 	break;
+	case 13:
+	restoretodefcam(&camera);
+	update_start_proc();
+	break;
 	case 'r':
 	unloadsmokes();
 	break;
@@ -94,10 +99,10 @@ void keyboard(unsigned char key, int x, int y)
 	modify_light(-0.001);
 	break;
 	case 'e':
-		set_model_rotation_speed(&scene, 1);
+		set_model_rotation_speed(&scene, 2);
 		break;
 	case 'q':
-		set_model_rotation_speed(&scene, -1);
+		set_model_rotation_speed(&scene, -0.75);
 		break;
     }
 

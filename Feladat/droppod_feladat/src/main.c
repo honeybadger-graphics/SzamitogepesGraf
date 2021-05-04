@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
     glutInitWindowSize(1024, 768);     
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 
-    window = glutCreateWindow("DropPod WIP");
+    window = glutCreateWindow("DropPod");
     glutSetWindow(window);
 
     init_opengl();

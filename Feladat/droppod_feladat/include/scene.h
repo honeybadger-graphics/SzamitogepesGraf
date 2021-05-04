@@ -14,6 +14,7 @@ typedef struct Scene
 	Model terr;
 	Model smoke;
 	Model skybox;
+	Model help;
 	float model_rotation;
 	float model_fallspeed;
 	float smoke_rot;
@@ -24,6 +25,7 @@ typedef struct Scene
 	GLuint texture_dt;
 	GLuint texture_terr;
 	GLuint texture_smoke;
+	GLuint texture_help;
 
 } Scene;
 
@@ -58,5 +60,14 @@ void draw_origin();
 * Unloads smokes on command.
 */ 
 void unloadsmokes();
+/**
+* Draws help
+*/
+void draw_help();
+/**
+* Starts the models
+*/
+void update_start_proc();
+
 
 #endif /* SCENE_H */

@@ -45,7 +45,6 @@ void keyboard(unsigned char key, int x, int y);
  * Call after keyboard release event.
  */
 void keyboard_up(unsigned char key, int x, int y);
-void specialFunc(int key, int x, int y);
 /**
  * Call when there is no other event.
  */

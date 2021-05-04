@@ -5,23 +5,22 @@
 
 #include <obj/load.h>
 #include <obj/draw.h> 
-#define n 6
-#define m 3
-#define b 4
+#define n 8
+#define m 5
+#define b 6
 #define TerrH -20
-#define smokelength 6
 #define WINDOW_WIDTH 1024
 #define WINDOW_HEIGHT 768
 
 
-int smokeunloader[] = {0,0,0,0,0,0};
+int smokeunloader[] = {0,0,0,0,0,0,0,0};
 
 
 float ambient_light[] = { 0.1f, 0.1f, 0.1f, 1.0f };
     float diffuse_light[] = { 0.1f, 0.1f, 0.1f, 1.0f };
     float specular_light[] = { 0.1f, 0.1f, 0.1f, 1.0f };
     float position[] = { 1.0f, 0.0f, 3.0f, 1.0f };
-
+int start_process = 0;
 typedef	struct  {
     float x;
     float y;
@@ -30,19 +29,21 @@ typedef	struct  {
 
 Dropod_Origins_Body DropPod_Origins[n] = {
 	{0, 0, 0},
-    {-1, 2, 1},
-    {-1, -2, 1},
-	{-2.5, 0, 2},
-	{-3, 4, -0.75},
-	{-3, -4, 1.5},
+    {-2, 2, 2},
+    {3, -2, -1},
+	{-5, 0, 4},
+	{-3, 5, 1},
+	{-4, -4, 2},
+		{4, 4 , 6},
+			{5, 1 , 4},
 };
 Dropod_Origins_Body DropPod_InActions[m] = 
 {
-	{3,0,TerrH},{4,2,TerrH},{4,-2,TerrH},
+	{3,11,TerrH},{5,9,TerrH},{-10,0,TerrH},{5,-9,TerrH},{3, -11 ,TerrH},
 };
 Dropod_Origins_Body DropPod_InTerrain[b] =
 {
-	{5,0,TerrH},{6,2,TerrH},{6,-2,TerrH},{7,0,TerrH},
+	{-3,-11,TerrH},{-5,-9,TerrH},{8,-2,TerrH},{8,3,TerrH},{-5,9,TerrH},{-3,11,TerrH},
 };
 
 void init_scene(Scene* scene)
@@ -64,8 +65,12 @@ void init_scene(Scene* scene)
 	
 	load_model(&(scene->smoke), "object\\smoke.obj");
 	scene->texture_smoke = load_texture("textures\\smoke.png"); 
+	
 	load_model(&(scene->skybox), "object\\skybox.obj");
 	scene->texture_sky = load_texture("textures\\sky.png"); 
+	
+	load_model(&(scene->help), "object\\help.obj");
+	scene->texture_help = load_texture("textures\\help.png");
 	
     scene->material.ambient.red = 1.0;
     scene->material.ambient.green = 1.0;
@@ -110,7 +115,16 @@ void set_material(const Material* material)
 
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &(material->shininess));
 }
-
+void draw_help(Scene* scene)
+{
+	glPushMatrix();
+	glTranslatef(32,30,30);
+	glRotatef(90,0,0,-1);
+	glRotatef(90,0,-1,0);
+		glBindTexture(GL_TEXTURE_2D, scene->texture_help);
+	draw_model(&(scene->help));
+	glPopMatrix();
+	}
 void draw_scene(const Scene* scene)
 {
 
@@ -163,7 +177,7 @@ void draw_scene(const Scene* scene)
 		}
 	
 	for(j = 0; j<n;j++){
-		if (DropPod_Origins[i].z+scene->model_fallspeed>TerrH)
+		if (DropPod_Origins[j].z+scene->model_fallspeed>TerrH)
 		{
 	glPushMatrix();
 	glTranslatef(DropPod_Origins[j].x,DropPod_Origins[j].y,DropPod_Origins[j].z+scene->model_fallspeed);
@@ -208,11 +222,16 @@ void draw_scene(const Scene* scene)
 	glBindTexture(GL_TEXTURE_2D, scene->texture_dt);
 			draw_model(&(scene->damageTer));
 	glPopMatrix();}
+	
 }
+void update_start_proc()
+{start_process = 1;}
 void update_scene(Scene* scene, double time)
 {
-	scene->model_rotation +=20 * time;
-	scene->model_fallspeed -= 2 * time;
+	int speed =0;
+	if (start_process == 1){ speed = 2;}
+	scene->model_rotation +=30 * time;
+	scene->model_fallspeed -=speed * time;
 	scene->smoke_rot += 50 *time;
 }
 int smokei = 0;
@@ -229,10 +248,12 @@ void unloadsmokes()
 	if(elapsed_time >= 1){
 	smokesucces =1;
 	}
-	if (smokesucces == 1 && smokei<smokelength){ smokeunloader[smokei]=1;smokei++;}
+	if (smokesucces == 1 && smokei<n){ smokeunloader[smokei]=1;smokei++;}
 	
 	
 }
+
+	
 
 
 void set_model_rotation_speed(Scene* scene, double speed)
