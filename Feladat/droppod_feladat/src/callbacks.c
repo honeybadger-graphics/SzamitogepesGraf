@@ -17,6 +17,10 @@ void display()
     set_view(&camera);
 	draw_help(&scene);
 	draw_scene(&scene);
+	draw_terrain(&scene);
+	draw_pods_falling(&scene);
+	draw_pods_insmoke(&scene);
+	draw_pods_insmoke(&scene);
     glPopMatrix();
 
     glutSwapBuffers();
@@ -84,7 +88,7 @@ void keyboard(unsigned char key, int x, int y)
 	break;
 	case 13:
 	restoretodefcam(&camera);
-	update_start_proc();
+	update_start_proc(&scene);
 	break;
 	case 'r':
 	unloadsmokes();
@@ -93,10 +97,10 @@ void keyboard(unsigned char key, int x, int y)
 	showhelp(&camera);
 	break;
 	case '+':
-	modify_light(0.001);
+	modify_light(0.01);
 	break;
 	case '-':
-	modify_light(-0.001);
+	modify_light(-0.01);
 	break;
 	case 'e':
 		set_model_rotation_speed(&scene, 2);

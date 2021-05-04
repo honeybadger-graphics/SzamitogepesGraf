@@ -97,7 +97,6 @@ void set_camera_height_speed(Camera* camera, double speed)
 {
     camera->speed.z = speed;
 }
-
 void show_texture_preview()
 {
     glDisable(GL_LIGHTING);

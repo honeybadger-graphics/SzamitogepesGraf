@@ -26,6 +26,7 @@ typedef struct Scene
 	GLuint texture_terr;
 	GLuint texture_smoke;
 	GLuint texture_help;
+	int start_process;
 
 } Scene;
 
@@ -68,6 +69,22 @@ void draw_help();
 * Starts the models
 */
 void update_start_proc();
+/**
+* Draws Terrain
+*/
+void draw_terrain(Scene* scene);
+/**
+* Draws droppods falling from the sky.
+*/
+void draw_pods_falling(Scene* scene);
+/**
+* Draws droppods in smoke while in terrain.
+*/
+void draw_pods_insmoke(Scene* scene);
+/**
+* Draws droppods in terrain.
+*/
+void draw_pods_interain(Scene* scene);
 
 
 #endif /* SCENE_H */
