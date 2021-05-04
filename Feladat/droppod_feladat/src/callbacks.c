@@ -20,7 +20,7 @@ void display()
 	draw_terrain(&scene);
 	draw_pods_falling(&scene);
 	draw_pods_insmoke(&scene);
-	draw_pods_insmoke(&scene);
+	draw_pods_interain(&scene);
     glPopMatrix();
 
     glutSwapBuffers();
