@@ -51,26 +51,26 @@ void init_scene(Scene* scene)
 	scene->model_rotation = 0.0;
 	scene->model_fallspeed = 0.0;
 	scene->smoke_rot = 0.0;
-    load_model(&(scene->model), "object\\Droppod3.obj");
-    scene->texture_model = load_texture("textures\\TDragoonTextures.png");
+    load_model(&(scene->model), "object/Droppod3.obj");
+    scene->texture_model = load_texture("textures/TDragoonTextures.png");
 
-	load_model(&(scene->particulse), "object\\particles.obj");
-	scene->texture_entry = load_texture("textures\\Reentry.png"); 
+	load_model(&(scene->particulse), "object/particles.obj");
+	scene->texture_entry = load_texture("textures/Reentry.png"); 
 	
-	load_model(&(scene->damageTer), "object\\damage.obj");
-	scene->texture_dt = load_texture("textures\\damtex.png"); 
+	load_model(&(scene->damageTer), "object/damage.obj");
+	scene->texture_dt = load_texture("textures/damtex.png"); 
 	
-	load_model(&(scene->terr), "object\\Terrain.obj");
-	scene->texture_terr = load_texture("textures\\Textureter.png"); 
+	load_model(&(scene->terr), "object/Terrain.obj");
+	scene->texture_terr = load_texture("textures/Textureter.png"); 
 	
-	load_model(&(scene->smoke), "object\\smoke.obj");
-	scene->texture_smoke = load_texture("textures\\smoke.png"); 
+	load_model(&(scene->smoke), "object/smoke.obj");
+	scene->texture_smoke = load_texture("textures/smoke.png"); 
 	
-	load_model(&(scene->skybox), "object\\skybox.obj");
-	scene->texture_sky = load_texture("textures\\sky.png"); 
+	load_model(&(scene->skybox), "object/skybox.obj");
+	scene->texture_sky = load_texture("textures/sky.png"); 
 	
-	load_model(&(scene->help), "object\\help.obj");
-	scene->texture_help = load_texture("textures\\help.png");
+	load_model(&(scene->help), "object/help.obj");
+	scene->texture_help = load_texture("textures/help.png");
 	
     scene->material.ambient.red = 1.0;
     scene->material.ambient.green = 1.0;
